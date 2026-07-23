@@ -24,6 +24,9 @@ app.post('/api/v1/tours', (req, res) => {
     JSON.stringify(tours),
     'utf-8',
     (err) => {
+      if (err) {
+        res.status(500).send(`${err} Server Error`);
+      }
       res.send(newTour);
     },
   );
