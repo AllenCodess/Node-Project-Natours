@@ -6,9 +6,18 @@ const port = 3000;
 // this is how I can use middleware. middleware sits inbetween the request and the response
 app.use(express.json());
 
+// 1) MIDDLEWARES
+
+app.use((req, res, next) => {
+  console.log('Hello form the middleware');
+  next();
+});
+
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf-8'),
 );
+
+// 2) ROUTE HANDLERS
 
 const getAllTours = (req, res) => {
   res.send(tours);
@@ -55,11 +64,7 @@ const createTour = (req, res) => {
   );
 };
 
-// app.get('/api/v1/tours', getAllTours);
-// app.post('/api/v1/tours', createTour);
-// app.get('/api/v1/tours/:id', getSingleTour);
-// app.patch('/api/v1/tours/:id', updateTour);
-// app.delete('/api/v1/tours/:id', deleteTour);
+// 3) ROUTES
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app
@@ -68,6 +73,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// 4) SERVER
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });
