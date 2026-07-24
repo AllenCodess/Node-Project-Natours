@@ -23,6 +23,13 @@ app.get('/api/v1/tours/:id', (req, res) => {
   res.status(200).send(tour);
 });
 
+app.patch('/api/v1/tours/:id', (req, res) => {
+  if (Number(req.params.id) > tours.length) {
+    return res.status(404).send('invalid id');
+  }
+  res.status(200).send('updated tour');
+});
+
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
