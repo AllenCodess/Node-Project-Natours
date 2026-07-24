@@ -10,34 +10,34 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf-8'),
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.send(tours);
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getSingleTour = (req, res) => {
   const id = Number(req.params.id);
   const tour = tours.find((el) => el.id === id);
   if (!tour) {
     return res.status(404).send('tour doesnt exist');
   }
   res.status(200).send(tour);
-});
+};
 
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   if (Number(req.params.id) > tours.length) {
     return res.status(404).send('invalid id');
   }
   res.status(200).send('updated tour');
-});
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (Number(req.params.id) > tours.length) {
     return res.status(404).send(null);
   }
   res.status(204).send('updated tour');
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
   tours.push(newTour);
@@ -53,7 +53,13 @@ app.post('/api/v1/tours', (req, res) => {
       res.send(newTour);
     },
   );
-});
+};
+
+app.get('/api/v1/tours', getAllTours);
+app.get('/api/v1/tours/:id', getSingleTour);
+app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
+app.post('/api/v1/tours', createTour);
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
