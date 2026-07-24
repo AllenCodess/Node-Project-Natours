@@ -2,9 +2,10 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const port = 3000;
-
+const morgan = require('morgan');
 // this is how I can use middleware. middleware sits inbetween the request and the response
 app.use(express.json());
+app.use(morgan('dev'));
 
 // 1) MIDDLEWARES
 
