@@ -14,6 +14,15 @@ app.get('/api/v1/tours', (req, res) => {
   res.send(tours);
 });
 
+app.get('/api/v1/tours/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const tour = tours.find((el) => el.id === id);
+  if (!tour) {
+    return res.status(404).send('tour doesnt exist');
+  }
+  res.status(200).send(tour);
+});
+
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
