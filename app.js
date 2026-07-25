@@ -18,10 +18,14 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf-8'),
 );
 
+const users = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/users.json`, 'utf-8'),
+);
+
 // 2) ROUTE HANDLERS
 
 const getAllTours = (req, res) => {
-  res.send(tours);
+  res.send(JSON.stringify(tours, null, 2));
 };
 
 const getSingleTour = (req, res) => {
@@ -65,6 +69,30 @@ const createTour = (req, res) => {
   );
 };
 
+const getAllUsers = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route has not been configured' });
+};
+
+const getUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route has not been configured' });
+};
+
+const updateUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route has not been configured' });
+};
+
+const deleteUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route has not been configured' });
+};
+
 // 3) ROUTES
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
@@ -73,6 +101,13 @@ app
   .get(getSingleTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers);
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 // 4) SERVER
 app.listen(port, () => {
