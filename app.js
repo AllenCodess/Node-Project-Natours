@@ -105,6 +105,12 @@ tourRouter
   .patch(updateTour)
   .delete(deleteTour);
 
+const userRouter = express.Router();
+app.use('/api/v1/users', userRouter);
+
+userRouter.route('/').get(getAllUsers);
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
 // app.route('/api/v1/tours').get(getAllTours).post(createTour);
 // app
 //   .route('/api/v1/tours/:id')
@@ -112,12 +118,12 @@ tourRouter
 //   .patch(updateTour)
 //   .delete(deleteTour);
 
-app.route('/api/v1/users').get(getAllUsers);
-app
-  .route('/api/v1/users/:id')
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+// app.route('/api/v1/users').get(getAllUsers);
+// app
+//   .route('/api/v1/users/:id')
+//   .get(getUser)
+//   .patch(updateUser)
+//   .delete(deleteUser);
 
 // 4) SERVER
 app.listen(port, () => {
