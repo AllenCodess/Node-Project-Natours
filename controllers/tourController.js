@@ -9,24 +9,14 @@ exports.getAllTours = (req, res) => {
 };
 
 exports.getSingleTour = (req, res) => {
-  const id = Number(req.params.id);
-  const tour = tours.find((el) => el.id === id);
-  if (!tour) {
-    return res.status(404).send('tour doesnt exist');
-  }
-  res.status(200).send(tour);
+  res.status(200).send(req.tour);
 };
 
 exports.updateTour = (req, res) => {
-  if (Number(req.params.id) > tours.length) {
-    return res.status(404).send('invalid id');
-  }
   res.status(200).send('updated tour');
 };
+
 exports.deleteTour = (req, res) => {
-  if (Number(req.params.id) > tours.length) {
-    return res.status(404).send(null);
-  }
   res.status(204).send('updated tour');
 };
 
