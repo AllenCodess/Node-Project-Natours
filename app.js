@@ -1,5 +1,4 @@
 const express = require('express');
-const fs = require('fs');
 const app = express();
 const port = 3000;
 const morgan = require('morgan');
@@ -17,8 +16,6 @@ app.use((req, res, next) => {
   console.log('Hello form the middleware');
   next();
 });
-
-// 2) ROUTE HANDLERS
 
 // 3) ROUTES
 
