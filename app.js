@@ -22,7 +22,4 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
-// 4) SERVER
-app.listen(port, () => {
-  console.log(`app listening on port ${port}`);
-});
+module.exports = { app, port };
