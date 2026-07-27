@@ -1,6 +1,10 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
+
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+
 const morgan = require('morgan');
 
 const tourRouter = require('./routes/tourRoutes');
