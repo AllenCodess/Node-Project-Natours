@@ -24,7 +24,22 @@ const tourSchema = new mongoose.Schema({
   price: { type: Number, required: [true, 'A tour must have a price'] },
 });
 
-const Your = mongoose.model('Tour', tourSchema);
+const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+  name: 'Golden Path',
+  rating: 5.0,
+  price: 10,
+});
+
+testTour
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
