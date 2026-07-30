@@ -1,12 +1,11 @@
 const Tour = require('./../models/tourModel');
 
 exports.getAllTours = (req, res) => {
-  res.send(JSON.stringify(tours, null, 2));
+  res.send('getting all tours');
 };
 
 exports.getSingleTour = (req, res) => {
-  const tour = req.tour || req.name;
-  res.status(200).send(tour);
+  res.status(200).send('Fetching a single tour');
 };
 
 exports.updateTour = (req, res) => {
@@ -17,13 +16,17 @@ exports.deleteTour = (req, res) => {
   res.status(204).send('deleted tour');
 };
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).send('no body or price');
+exports.createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: { tour: newTour },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
   }
-  next();
-};
-
-exports.createTour = (req, res) => {
-  res.status(204).send('created tour');
 };
