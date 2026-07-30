@@ -1,8 +1,4 @@
-const fs = require('fs');
-
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`, 'utf-8'),
-);
+const Tour = require('./../models/tourModel');
 
 exports.getAllTours = (req, res) => {
   res.send(JSON.stringify(tours, null, 2));
@@ -18,7 +14,7 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  res.status(204).send('updated tour');
+  res.status(204).send('deleted tour');
 };
 
 exports.checkBody = (req, res, next) => {
@@ -29,19 +25,5 @@ exports.checkBody = (req, res, next) => {
 };
 
 exports.createTour = (req, res) => {
-  const newId = tours[tours.length - 1].id + 1;
-  const newTour = Object.assign({ id: newId }, req.body);
-  tours.push(newTour);
-
-  fs.writeFile(
-    `${__dirname}/../dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    'utf-8',
-    (err) => {
-      if (err) {
-        return res.status(500).send(`${err} Server Error`);
-      }
-      res.send(newTour);
-    },
-  );
+  res.status(204).send('created tour');
 };
