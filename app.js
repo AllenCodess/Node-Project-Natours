@@ -3,6 +3,7 @@ dotenv.config({ path: '.env' });
 
 const express = require('express');
 const app = express();
+app.set('json spaces', 2);
 const port = process.env.PORT;
 
 const morgan = require('morgan');
