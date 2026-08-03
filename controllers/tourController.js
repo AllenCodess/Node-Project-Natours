@@ -17,6 +17,15 @@ exports.getAllTours = async (req, res) => {
       query = query.sort(sortBy); // chains sort method to query if sort param exists in URL
     }
 
+    // Field Limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      console.log(fields);
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
+    }
+
     // Execute Query
     let tours = await query; // executes query and waits for database results
 
