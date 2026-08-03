@@ -12,7 +12,9 @@ exports.getAllTours = async (req, res) => {
 
     //Sorting
     if (req.query.sort) {
-      query = query.sort(req.query.sort); // chains sort method to query if sort param exists in URL
+      const sortBy = req.query.sort.split(',').join(' ');
+      console.log(sortBy);
+      query = query.sort(sortBy); // chains sort method to query if sort param exists in URL
     }
 
     // Execute Query
