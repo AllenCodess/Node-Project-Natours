@@ -1,7 +1,7 @@
 class APIFeatures {
   constructor(query, queryString) {
-    this.query = query;
-    this.queryString = queryString;
+    this.query = query; // Stores the database query
+    this.queryString = queryString; // Stores the URL parameters
   }
 
   filter() {
