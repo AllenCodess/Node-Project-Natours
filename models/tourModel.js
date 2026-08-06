@@ -38,12 +38,21 @@ const tourSchema = new mongoose.Schema({
   images: [String],
   createdAt: { type: Date, default: Date.now() },
   startDates: [Date],
+  secretTour: {
+    type: Boolean,
+    deafult: false,
+  },
 });
 
 // Document Middleware: runs before a .save() and .create()
 tourSchema.pre('save', async function () {
   this.slug = this.name.toLowerCase();
   console.log('Slug created:', this.slug);
+});
+
+// Query Middleware: /^find/ runs on multiple find instances
+tourSchema.pre(/^find/, async function () {
+  this.find({ secretTour: { $ne: true } });
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
