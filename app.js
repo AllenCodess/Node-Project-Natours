@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: '.env' });
 
+const appError = require('./utils/appError');
 const express = require('express');
 const app = express();
 app.set('json spaces', 2);
@@ -10,6 +11,7 @@ const morgan = require('morgan');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const AppError = require('./utils/appError');
 
 // this is how I can use middleware. middleware sits inbetween the request and the response
 app.use(express.json());
@@ -28,11 +30,11 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 app.all(/.*/, (req, res, next) => {
-  const err = new Error(`Cannot find ${req.originalUrl} on this server.`);
-  err.status = 'fail';
-  err.statusCode = 404;
+  // const err = new Error(`Cannot find ${req.originalUrl} on this server.`);
+  // err.status = 'fail';
+  // err.statusCode = 404;
 
-  next(err);
+  next(new AppError(`Cannot find ${req.originalUrl} on this server.`, 404));
 });
 
 app.use((err, req, res, next) => {
