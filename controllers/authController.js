@@ -29,8 +29,12 @@ exports.login = (req, res, next) => {
 
   // 1) Check if password and email exist in the post request
   if (!email || !password) {
-    next(new AppError('Please provide email and password!', 400));
+    return next(new AppError('Please provide email and password!', 400));
   }
+
+  // 2) Check if user exist && password is correct
+
+  // 3) if everything ok, send token to client
 
   const token = '';
   res.status(200).json({
