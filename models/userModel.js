@@ -49,5 +49,15 @@ userSchema.pre('save', async function () {
   this.passwordConfirm = undefined; // doesnt presist the old password in the database
 });
 
+// this will check if given password is the same as the one in the document
+// Instance method: verify a plain password against the stored hash
+// bcrypt.compare() returns true/false without ever exposing the hash
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword,
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
 const User = mongoose.model('User', userSchema);
 module.exports = User;
