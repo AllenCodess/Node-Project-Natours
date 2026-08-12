@@ -45,8 +45,21 @@ exports.login = catchAsync(async (req, res, next) => {
   // 3) if everything ok, send token to client
 
   const token = signToken(user._id);
+
   res.status(200).json({
     status: 'success',
     token,
   });
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Getting the token and check if its exist\
+
+  // 2) verification token
+
+  // 3) Check if the user exist
+
+  // 4) Check if user changed password after the JWT (token) was issued
+
+  next();
 });

@@ -21,6 +21,7 @@ app.use(morgan('dev'));
 
 app.use((req, res, next) => {
   console.log('Hello form the middleware');
+  console.log(req.headers);
   next();
 });
 
@@ -30,10 +31,6 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 app.all(/.*/, (req, res, next) => {
-  // const err = new Error(`Cannot find ${req.originalUrl} on this server.`);
-  // err.status = 'fail';
-  // err.statusCode = 404;
-
   next(new AppError(`Cannot find ${req.originalUrl} on this server.`, 404));
 });
 
