@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 
 app.use((req, res, next) => {
   console.log('Hello form the middleware');
-  console.log(req.headers);
+  // console.log(req.headers);
   next();
 });
 
