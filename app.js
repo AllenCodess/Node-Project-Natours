@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 app.set('json spaces', 2);
 const port = process.env.PORT;
+const cookieParser = require('cookie-parser');
 
 const morgan = require('morgan');
 
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // 1) MIDDLEWARES
-
+app.use(cookieParser());
 app.use((req, res, next) => {
   console.log('Hello form the middleware');
   // console.log(req.headers);

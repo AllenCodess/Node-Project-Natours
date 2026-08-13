@@ -1,4 +1,3 @@
-const { promisify } = require('util');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const jwt = require('jsonwebtoken');
@@ -20,9 +19,15 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const token = signToken(newUser._id);
 
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
   res.status(201).json({
     status: 'success',
-    token,
     data: {
       user: newUser,
     },
@@ -47,22 +52,21 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const token = signToken(user._id);
 
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
   res.status(200).json({
     status: 'success',
-    token,
   });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting the token and check if its exist
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
+  let token = req.cookies.jwt;
 
   if (!token) {
     return next(
@@ -91,6 +95,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // 3) Check if the user exist
+  // freshUser is equal to the users id thats inside the tokens payload
+  const freshUser = await User.findById(decoded.id);
+  if (!freshUser) {
+    return next(
+      new AppError('The user belonging to this token does not exist', 401),
+    );
+  }
 
   // 4) Check if user changed password after the JWT (token) was issued
 
