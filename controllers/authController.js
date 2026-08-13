@@ -1,8 +1,8 @@
+const { promisify } = require('util');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const jwt = require('jsonwebtoken');
 const AppError = require('./../utils/appError');
-const { request } = require('express');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -69,7 +69,26 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('You are not logged in. Please log in to get access.', 401),
     );
   }
-  // 2) verification token
+
+  // 2) Verify token
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError') {
+      return next(new AppError('Invalid token. Please log in again.', 401));
+    }
+
+    if (err.name === 'TokenExpiredError') {
+      return next(
+        new AppError(
+          'Your token session has expired. Please log in again.',
+          401,
+        ),
+      );
+    }
+    throw err;
+  }
 
   // 3) Check if the user exist
 
